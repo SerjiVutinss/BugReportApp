@@ -1,71 +1,57 @@
 package org.serji.sw.client;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client {
 
 	private Socket socket;
-	private DataInputStream in;
-	private DataOutputStream out;
+	private ObjectInputStream in;
+	private ObjectOutputStream out;
 
 	public Client() {
+		System.out.println("Welcome to TCP Client");
+
+		Socket socket = null;
+		String host = "localhost";
+
+		int port = 8000;
+
 		try {
-			socket = new Socket("127.0.0.1", 8000);
-			in = new DataInputStream(socket.getInputStream());
-			out = new DataOutputStream(socket.getOutputStream());
-
-			listen();
-
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			System.out.println("Attempt to connect to TCP server");
+			socket = new Socket(host, port);
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void listen() {
-		Scanner scanner = new Scanner(System.in);
-		while (true) {
-			while (!scanner.hasNextLine()) {
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			String input = scanner.nextLine();
-			try {
-				out.writeUTF(input);
-				while (in.available() == 0) {
-					try {
-						Thread.sleep(1);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-
-				String reply = in.readUTF();
-				System.out.println(reply);
-			} catch (IOException e) {
-				e.printStackTrace();
-				break;
-			}
+			System.out.println("CLIENT cannot connect to server");
 		}
 
 		try {
-			in.close();
-			out.close();
-			socket.close();
-			scanner.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			PrintStream out = new PrintStream(socket.getOutputStream());
+			InputStreamReader in = new InputStreamReader(socket.getInputStream());
 
+			while (true) {
+
+				Scanner s = new Scanner(System.in);
+				System.out.println("Press a key to send a message");
+				s.next();
+
+				// prepare the String
+				String message = "Hello World From TCP Client \n\n\n\n";
+				out.println(message);
+
+				BufferedReader br = new BufferedReader(in);
+				message = br.readLine();
+				System.out.println("Message received from server: \n\t" + message);
+
+			}
+		} catch (IOException e) {
+			System.out.println("Could not get streams");
+		}
 	}
 
 	public static void main(String[] args) {

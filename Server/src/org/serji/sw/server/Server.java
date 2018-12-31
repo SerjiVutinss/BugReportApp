@@ -1,60 +1,64 @@
 package org.serji.sw.server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
 
-	private ServerSocket serverSocket;
-	private Socket socket;
-	private DataInputStream in;
-	private DataOutputStream out;
-
 	public Server() {
+		ServerSocket serverSocket = null;
+		int port = 8000;
+
 		try {
-			serverSocket = new ServerSocket(8000);
-			socket = serverSocket.accept();
-
-			in = new DataInputStream(socket.getInputStream());
-			out = new DataOutputStream(socket.getOutputStream());
-
-			listen();
-
+			serverSocket = new ServerSocket(port);
+			System.out.println("TCP Server running on port " + port);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("TCP Server could not be started on port " + port);
+		}
+
+		while (true) {
+			Socket clientSocket = null;
+			try {
+				System.out.println("TCP Server waiting for connections");
+				clientSocket = serverSocket.accept();
+			} catch (IOException e) {
+				System.out.println("ERROR: Cannot accept client request");
+				return;
+			}
+
+			processClientRequest(clientSocket);
 		}
 	}
 
-	private void listen() {
-		while (true) {
-			try {
-				while (in.available() == 0) {
-					try {
-						Thread.sleep(1);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+	private void processClientRequest(Socket socket) {
 
-				String input = in.readUTF();
-				System.out.println(input);
-				out.writeUTF(input);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-				break;
-			}
-		}
+		System.out.println("TCP Server processing the incoming request");
 
 		try {
-			in.close();
+			PrintStream out = new PrintStream(socket.getOutputStream());
+			InputStreamReader in = new InputStreamReader(socket.getInputStream());
+
+			BufferedReader br = new BufferedReader(in);
+
+			String message = null;
+			message = br.readLine();
+
+			System.out.println("Message recieved from client: ");
+			System.out.println(message);
+
+			System.out.println("Sending Response");
+
+			// send response
+			String messageSend = "Hello World from TCP Server";
+			out.println(messageSend);
 			out.close();
-			socket.close();
-			serverSocket.close();
+
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
