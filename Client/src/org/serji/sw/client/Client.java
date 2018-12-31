@@ -1,11 +1,8 @@
 package org.serji.sw.client;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -31,8 +28,8 @@ public class Client {
 		}
 
 		try {
-			PrintStream out = new PrintStream(socket.getOutputStream());
-			InputStreamReader in = new InputStreamReader(socket.getInputStream());
+			out = new ObjectOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
 
 			while (true) {
 
@@ -42,10 +39,15 @@ public class Client {
 
 				// prepare the String
 				String message = "Hello World From TCP Client \n\n\n\n";
-				out.println(message);
+				out.writeObject(message);
 
-				BufferedReader br = new BufferedReader(in);
-				message = br.readLine();
+//				BufferedReader br = new BufferedReader(in.readObject());
+				try {
+					message = (String) in.readObject();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.out.println("Message received from server: \n\t" + message);
 
 			}

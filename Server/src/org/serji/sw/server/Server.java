@@ -3,6 +3,8 @@ package org.serji.sw.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -39,13 +41,18 @@ public class Server {
 		System.out.println("TCP Server processing the incoming request");
 
 		try {
-			PrintStream out = new PrintStream(socket.getOutputStream());
-			InputStreamReader in = new InputStreamReader(socket.getInputStream());
+			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-			BufferedReader br = new BufferedReader(in);
+//			BufferedReader br = new BufferedReader(in.);
 
 			String message = null;
-			message = br.readLine();
+			try {
+				message = (String) in.readObject();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			System.out.println("Message recieved from client: ");
 			System.out.println(message);
@@ -54,7 +61,7 @@ public class Server {
 
 			// send response
 			String messageSend = "Hello World from TCP Server";
-			out.println(messageSend);
+			out.writeObject(messageSend);
 			out.close();
 
 		} catch (IOException e) {
