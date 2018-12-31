@@ -8,12 +8,10 @@ import java.net.Socket;
 public class RequestHandler extends Thread {
 
 	private Socket socket;
-	private String message;
 	private boolean keepAlive = true;
 
-	public RequestHandler(Socket socket, String message) {
+	public RequestHandler(Socket socket) {
 		this.socket = socket;
-		this.message = message;
 	}
 
 	public void run() {
@@ -30,6 +28,7 @@ public class RequestHandler extends Thread {
 		}
 
 		while (keepAlive) {
+
 			try {
 				if (socket.isConnected()) {
 					String message = null;
@@ -41,20 +40,20 @@ public class RequestHandler extends Thread {
 					out.flush();
 				} else {
 					keepAlive = false;
-					System.out.println(
-							"[SERVER]> Closing connection to: " + socket.getInetAddress() + ":" + socket.getPort());
 				}
-
 			} catch (IOException | ClassNotFoundException e) {
-				System.out.println("[SERVER]> Connection to client was lost");
 				keepAlive = false;
+				System.out.println("[SERVER]> Connection to client was lost");
 			}
+
 		}
+
 		try {
 			socket.close();
+			System.out.println(
+					"[SERVER]> Connection to: " + socket.getInetAddress() + ":" + socket.getPort() + " closed");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 }

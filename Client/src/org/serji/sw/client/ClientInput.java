@@ -9,6 +9,8 @@ public class ClientInput extends Thread {
 
 	private Socket socket;
 
+	private boolean keepAlive = true;
+
 	public ClientInput(Socket socket) {
 		this.socket = socket;
 	}
@@ -24,13 +26,20 @@ public class ClientInput extends Thread {
 
 			Scanner s = new Scanner(System.in);
 			String message;
-			while (true) {
+			while (keepAlive) {
 				System.out.println("Press a key to send a message");
 				message = s.next();
-				out.writeObject(message);
-				out.flush();
 
+				if (message.equals("Y")) {
+					keepAlive = false;
+					System.out.println("Finish Input");
+					break;
+				} else {
+					out.writeObject(message);
+					out.flush();
+				}
 			}
+			s.close();
 		} catch (IOException e) {
 			System.out.println("Could not get streams");
 		}
