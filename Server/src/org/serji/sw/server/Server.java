@@ -1,20 +1,24 @@
 package org.serji.sw.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
 
-	public Server() {
-		ServerSocket serverSocket = null;
-		int port = 8000;
+	private int port;
+	private ServerSocket serverSocket;
 
+	public Server() {
+		serverSocket = null;
+		port = 8000;
+
+		listen();
+	}
+
+	public void listen() {
 		try {
 			serverSocket = new ServerSocket(port);
 			System.out.println("TCP Server running on port " + port);
@@ -32,43 +36,9 @@ public class Server {
 				return;
 			}
 
-			processClientRequest(clientSocket);
+			Thread t = new RequestHandler(clientSocket, "hello");
+			t.start();
 		}
-	}
-
-	private void processClientRequest(Socket socket) {
-
-		System.out.println("TCP Server processing the incoming request");
-
-		try {
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-
-//			BufferedReader br = new BufferedReader(in.);
-
-			String message = null;
-			try {
-				message = (String) in.readObject();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			System.out.println("Message recieved from client: ");
-			System.out.println(message);
-
-			System.out.println("Sending Response");
-
-			// send response
-			String messageSend = "Hello World from TCP Server";
-			out.writeObject(messageSend);
-			out.close();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 	public static void main(String[] args) {
