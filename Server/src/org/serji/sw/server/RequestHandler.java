@@ -9,6 +9,7 @@ public class RequestHandler extends Thread {
 
 	private Socket socket;
 	private String message;
+	private boolean keepAlive = true;
 
 	public RequestHandler(Socket socket, String message) {
 		this.socket = socket;
@@ -17,34 +18,41 @@ public class RequestHandler extends Thread {
 
 	public void run() {
 
-		System.out.println("TCP Server processing the incoming request");
+		System.out.println("[SERVER]> Received connection from " + socket.getInetAddress() + ":" + socket.getPort());
 
+		ObjectOutputStream out = null;
+		ObjectInputStream in = null;
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-
-//			BufferedReader br = new BufferedReader(in.);
-
-			String message = null;
-			try {
-				message = (String) in.readObject();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			System.out.println("Message recieved from client: ");
-			System.out.println(message);
-
-			System.out.println("Sending Response");
-
-			// send response
-			String messageSend = "Hello World from TCP Server";
-			out.writeObject(messageSend);
-			out.close();
-
+			out = new ObjectOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		while (keepAlive) {
+			try {
+				if (socket.isConnected()) {
+					String message = null;
+					message = (String) in.readObject();
+
+					System.out.println("[SERVER]> Message recieved from client: ");
+					System.out.println("[SERVER]> Sending Response");
+					out.writeObject(message.toUpperCase());
+					out.flush();
+				} else {
+					keepAlive = false;
+					System.out.println(
+							"[SERVER]> Closing connection to: " + socket.getInetAddress() + ":" + socket.getPort());
+				}
+
+			} catch (IOException | ClassNotFoundException e) {
+				System.out.println("[SERVER]> Connection to client was lost");
+				keepAlive = false;
+			}
+		}
+		try {
+			socket.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
