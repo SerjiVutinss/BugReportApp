@@ -71,7 +71,7 @@ public class MainMenu {
 		sb.append("\n2. List Employees");
 		sb.append("\n-1. Quit");
 
-		handler.sendMessage(sb.toString());
+		handler.sendMessage(sb);
 
 		String message = null;
 		message = handler.getMessage();
@@ -102,7 +102,7 @@ public class MainMenu {
 		StringBuilder sb;
 		sb = new StringBuilder();
 		sb.append("\nPlease enter employee name: ");
-		handler.sendMessage(sb.toString());
+		handler.sendMessage(sb);
 
 		String message = handler.getMessage();
 
@@ -124,14 +124,6 @@ public class MainMenu {
 			sb.append("\n Department: " + e.getDepartment());
 			sb.append("\n*****************************************");
 		}
-
-		handler.sendMessage(sb.toString());
-
-//		String message = handler.getMessage();
-//
-//		if (message != null) {
-//			System.out.println("Employee Name: " + message);
-//			handler.sendMessage("RECEIVED: " + message);
-//		}
+		handler.sendMessage(sb);
 	}
 }
