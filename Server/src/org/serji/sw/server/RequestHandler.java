@@ -7,8 +7,7 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.serji.sw.server.menus.LoginMenu;
-import org.serji.sw.server.models.Employee;
+import org.serji.sw.server.menus.MainMenu;
 
 public class RequestHandler extends Thread {
 
@@ -16,19 +15,14 @@ public class RequestHandler extends Thread {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private boolean keepAlive = true;
+	private MainMenu mainMenu;
 
-	private Employee employee;
-
-	public Employee getEmployee() {
-		return this.employee;
+	public MainMenu getMainMenu() {
+		return this.mainMenu;
 	}
 
-	public void setEmployee(Employee e) {
-		this.employee = e;
-	}
-
-	public boolean isLoggedIn() {
-		return this.employee != null;
+	public RequestHandler(Socket socket) {
+		this.socket = socket;
 	}
 
 	public boolean isKeepAlive() {
@@ -37,10 +31,6 @@ public class RequestHandler extends Thread {
 
 	public void setKeepAlive(boolean keepAlive) {
 		this.keepAlive = keepAlive;
-	}
-
-	public RequestHandler(Socket socket) {
-		this.socket = socket;
 	}
 
 	@Override
@@ -60,11 +50,10 @@ public class RequestHandler extends Thread {
 
 	private void listen() {
 		if (socket.isConnected()) {
-			LoginMenu loginMenu = new LoginMenu(this);
-//			mainMenu.login();
+			mainMenu = new MainMenu(this);
 			while (keepAlive) {
 				if (socket.isConnected()) {
-					loginMenu.run();
+					mainMenu.run();
 				} else {
 					close();
 					this.keepAlive = false;

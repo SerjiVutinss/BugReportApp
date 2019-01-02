@@ -13,7 +13,10 @@ public class Server {
 
 	public Server() {
 
-		ServerData.addEmployee(new Employee(1, "justin", "justin@example.com", "finance"));
+		// create an admin employee
+		Employee e = new Employee("admin", "a@e.com", "admin");
+		ServerData.addEmployee(e);
+		System.out.println(e.getEmail() + " Added");
 
 		serverSocket = null;
 		port = 8000;

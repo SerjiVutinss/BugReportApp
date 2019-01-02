@@ -9,13 +9,17 @@ public class Employee implements Serializable {
 	 */
 	private static final long serialVersionUID = 3709446814518181321L;
 
-	private int id;
+	private int id; // must be unique
+	private String email; // must be unique
 	private String name;
-	private String email;
 	private String department;
 
-	public Employee(int id, String name, String email, String department) {
-		this.id = id;
+	public Employee() {
+
+	}
+
+	public Employee(String name, String email, String department) {
+//		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.department = department;

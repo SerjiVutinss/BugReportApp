@@ -24,6 +24,9 @@ public class ServerData {
 	}
 
 	public synchronized static boolean addEmployee(Employee e) {
+
+		e.setId(getValidId()); // set a unique id for this employee
+
 		if (!idSet.contains(e.getId()) && !emailSet.contains(e.getEmail())) {
 			idSet.add(e.getId());
 			emailSet.add(e.getEmail());
@@ -60,6 +63,19 @@ public class ServerData {
 			}
 		}
 		return null;
+	}
+
+	private static int getValidId() {
+		boolean isValidId = false;
+		int uniqueId = 0;
+		while (!isValidId) {
+			if (ServerData.idExists(uniqueId)) {
+				uniqueId++;
+			} else {
+				isValidId = true;
+			}
+		}
+		return uniqueId;
 	}
 
 }
