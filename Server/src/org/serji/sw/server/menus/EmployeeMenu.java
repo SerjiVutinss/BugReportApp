@@ -37,7 +37,11 @@ public class EmployeeMenu {
 						if (eDept != null && eDept.length() > 0) {
 							e.setDepartment(eDept);
 
-							ServerData.addEmployee(e);
+							if (ServerData.addEmployee(e)) {
+								handler.sendMessage("Employee " + e.getEmail() + " successfully added");
+							} else {
+								handler.sendMessage("Failed to add employee " + e.getEmail() + ", reason unknown");
+							}
 						}
 					}
 				}
@@ -66,6 +70,6 @@ public class EmployeeMenu {
 			sb.append("\n Department: " + e.getDepartment());
 			sb.append("\n*****************************************");
 		}
-		handler.sendMessage(sb);
+		handler.sendMessage(sb.toString());
 	}
 }

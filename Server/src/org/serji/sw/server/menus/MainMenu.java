@@ -35,7 +35,8 @@ public class MainMenu {
 		sb.append("\n2. Login Existing Employee");
 
 		if (this.isLoggedIn()) {
-			sb.append("\n3. List Existing Employees");
+			sb.append("\n3. Add New Bug Report");
+			sb.append("\n9. List Existing Employees");
 		}
 
 		sb.append("\n-1. Quit");
@@ -76,6 +77,10 @@ public class MainMenu {
 				break;
 
 			case "3":
+				BugReportMenu.addBugReport(handler);
+				break;
+
+			case "9":
 				EmployeeMenu.showEmployees(handler);
 				break;
 
