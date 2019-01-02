@@ -12,26 +12,39 @@ public class ServerData {
 
 	private volatile static List<Employee> employees = new ArrayList<>();
 	private volatile static Set<Integer> empIdSet = new HashSet<>();
-	private volatile static Set<String> emailSet = new HashSet<>();	
-	
-	
+	private volatile static Set<String> emailSet = new HashSet<>();
+
 	private volatile static List<BugReport> bugReports = new ArrayList<>();
 	private volatile static Set<Integer> bugIdSet = new HashSet<>();
 //	private static Map<Integer, String> employeeEmailIdMap = new HashMap<Integer, String>();
-
 
 	public synchronized static List<Employee> getEmployees() {
 		return employees;
 	}
 
-	public synchronized static void setEmployees(List<Employee> employees) {
+	public synchronized static List<BugReport> getBugReports() {
+		return bugReports;
+	}
+
+	public static void setEmployees(List<Employee> employees) {
 		ServerData.employees = employees;
+
+		for (Employee e : employees) {
+
+			if (!empIdSet.contains(e.getId()) && !emailSet.contains(e.getEmail())) {
+				empIdSet.add(e.getId());
+				emailSet.add(e.getEmail());
+				employees.add(e);
+				System.out.println("New employee added");
+			}
+		}
 	}
 
 	public synchronized static boolean addEmployee(Employee e) {
 
-		e.setId(getValidEmpId()); // set a unique id for this employee
-
+		if (e.getId() < 0) {
+			e.setId(getValidEmpId()); // set a unique id for this employee
+		}
 		if (!empIdSet.contains(e.getId()) && !emailSet.contains(e.getEmail())) {
 			empIdSet.add(e.getId());
 			emailSet.add(e.getEmail());
@@ -42,7 +55,24 @@ public class ServerData {
 		return false;
 	}
 
-	public synchronized static boolean idExists(int id) {
+	public synchronized static boolean addBugReport(BugReport br) {
+
+		br.setId(getValidBugId()); // set a unique id for this employee
+
+		if (!bugIdSet.contains(br.getId())) {
+			bugIdSet.add(br.getId());
+			bugReports.add(br);
+			System.out.println("New Bug Report added");
+			return true;
+		}
+		return false;
+	}
+
+	public synchronized static boolean empIdExists(int id) {
+		return empIdSet.contains(id);
+	}
+
+	public synchronized static boolean bugIdExists(int id) {
 		return empIdSet.contains(id);
 	}
 
@@ -74,7 +104,20 @@ public class ServerData {
 		boolean isValidId = false;
 		int uniqueId = 0;
 		while (!isValidId) {
-			if (ServerData.idExists(uniqueId)) {
+			if (ServerData.empIdExists(uniqueId)) {
+				uniqueId++;
+			} else {
+				isValidId = true;
+			}
+		}
+		return uniqueId;
+	}
+
+	private static int getValidBugId() {
+		boolean isValidId = false;
+		int uniqueId = 0;
+		while (!isValidId) {
+			if (ServerData.bugIdExists(uniqueId)) {
 				uniqueId++;
 			} else {
 				isValidId = true;

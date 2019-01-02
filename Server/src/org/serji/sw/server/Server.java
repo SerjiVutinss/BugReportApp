@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.serji.sw.server.data.DataWriter;
 import org.serji.sw.server.data.ServerData;
 import org.serji.sw.server.models.Employee;
 
@@ -15,9 +16,12 @@ public class Server {
 	public Server() {
 
 		// create an admin employee
-		Employee e = new Employee("admin", "a@e.com", "admin");
-		ServerData.addEmployee(e);
-		System.out.println(e.getEmail() + " Added");
+//		Employee e = new Employee("admin", "a@e.com", "admin");
+//		ServerData.addEmployee(e);
+//		System.out.println(e.getEmail() + " Added");
+
+//		DataWriter.writeData();
+		DataWriter.readData();
 
 		serverSocket = null;
 		port = 8000;

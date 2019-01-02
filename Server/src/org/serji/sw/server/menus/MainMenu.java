@@ -29,6 +29,8 @@ public class MainMenu {
 
 	public void run() {
 
+		EmployeeMenu.showEmployees(handler);
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n\nPlease make a selection: ");
 		sb.append("\n1. Register New Employee");
@@ -36,6 +38,7 @@ public class MainMenu {
 
 		if (this.isLoggedIn()) {
 			sb.append("\n3. Add New Bug Report");
+			sb.append("\n6. View All Bug Reports");
 			sb.append("\n9. List Existing Employees");
 		}
 
@@ -78,6 +81,10 @@ public class MainMenu {
 
 			case "3":
 				BugReportMenu.addBugReport(handler);
+				break;
+
+			case "6":
+				BugReportMenu.showBugReports(handler);
 				break;
 
 			case "9":
