@@ -29,9 +29,7 @@ public class ClientInput extends Thread {
 			Scanner s = new Scanner(System.in);
 			String message;
 			while (keepAlive) {
-//				System.out.println("Please make a selection");
-				message = s.next();
-
+				message = s.nextLine();
 				if (message.equals("Y")) {
 					keepAlive = false;
 					System.out.println("Finish Input");

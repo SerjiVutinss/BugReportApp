@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.serji.sw.server.data.ServerData;
 import org.serji.sw.server.models.Employee;
 
 public class Server {

@@ -1,4 +1,4 @@
-package org.serji.sw.server;
+package org.serji.sw.server.data;
 
 import java.util.ArrayList;
 import java.util.HashSet;

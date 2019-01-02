@@ -1,8 +1,8 @@
 package org.serji.sw.server.menus;
 
 import org.serji.sw.server.RequestHandler;
-import org.serji.sw.server.ServerData;
 import org.serji.sw.server.Utils;
+import org.serji.sw.server.data.ServerData;
 import org.serji.sw.server.models.Employee;
 
 public class EmployeeMenu {
