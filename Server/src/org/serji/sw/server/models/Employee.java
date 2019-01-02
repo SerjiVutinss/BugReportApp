@@ -1,4 +1,4 @@
-package org.serji.sw.server;
+package org.serji.sw.server.models;
 
 import java.io.Serializable;
 
@@ -11,11 +11,13 @@ public class Employee implements Serializable {
 
 	private int id;
 	private String name;
+	private String email;
 	private String department;
 
-	public Employee(int id, String name, String department) {
+	public Employee(int id, String name, String email, String department) {
 		this.id = id;
 		this.name = name;
+		this.email = email;
 		this.department = department;
 	}
 
@@ -33,6 +35,14 @@ public class Employee implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getDepartment() {

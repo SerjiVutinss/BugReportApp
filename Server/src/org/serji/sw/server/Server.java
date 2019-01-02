@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.serji.sw.server.models.Employee;
+
 public class Server {
 
 	private int port;
 	private ServerSocket serverSocket;
 
 	public Server() {
+
+		ServerData.addEmployee(new Employee(1, "justin", "justin@example.com", "finance"));
+
 		serverSocket = null;
 		port = 8000;
 

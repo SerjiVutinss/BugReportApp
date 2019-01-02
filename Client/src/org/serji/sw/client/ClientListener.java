@@ -31,7 +31,7 @@ public class ClientListener extends Thread {
 				}
 				try {
 					message = (String) in.readObject();
-					System.out.println("[SERVER]> " + message);
+					System.out.println(message);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

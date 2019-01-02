@@ -11,6 +11,8 @@ public class ClientInput extends Thread {
 
 	private boolean keepAlive = true;
 
+	private ObjectOutputStream out;
+
 	public ClientInput(Socket socket) {
 		this.socket = socket;
 	}
@@ -22,12 +24,12 @@ public class ClientInput extends Thread {
 
 	public void listen() {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+			out = new ObjectOutputStream(socket.getOutputStream());
 
 			Scanner s = new Scanner(System.in);
 			String message;
 			while (keepAlive) {
-				System.out.println("Press a key to send a message");
+//				System.out.println("Please make a selection");
 				message = s.next();
 
 				if (message.equals("Y")) {
@@ -35,14 +37,27 @@ public class ClientInput extends Thread {
 					System.out.println("Finish Input");
 					break;
 				} else {
-					out.writeObject(message);
-					out.flush();
+					sendMessage(message);
 				}
 			}
 			s.close();
 		} catch (IOException e) {
 			System.out.println("Could not get streams");
 		}
+	}
+
+	public void sendMessage(String message) {
+
+		try {
+			out.writeObject(message);
+			out.flush();
+		} catch (IOException e) {
+			System.out.println("Could not write");
+		}
+
+	}
+
+	public void mainMenu() {
 	}
 
 }
