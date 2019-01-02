@@ -7,12 +7,29 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.serji.sw.server.menus.LoginMenu;
+import org.serji.sw.server.models.Employee;
+
 public class RequestHandler extends Thread {
 
 	private Socket socket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private boolean keepAlive = true;
+
+	private Employee employee;
+
+	public Employee getEmployee() {
+		return this.employee;
+	}
+
+	public void setEmployee(Employee e) {
+		this.employee = e;
+	}
+
+	public boolean isLoggedIn() {
+		return this.employee != null;
+	}
 
 	public boolean isKeepAlive() {
 		return keepAlive;
@@ -43,11 +60,11 @@ public class RequestHandler extends Thread {
 
 	private void listen() {
 		if (socket.isConnected()) {
-			MainMenu mainMenu = new MainMenu(this);
-			mainMenu.login();
+			LoginMenu loginMenu = new LoginMenu(this);
+//			mainMenu.login();
 			while (keepAlive) {
 				if (socket.isConnected()) {
-					mainMenu.run();
+					loginMenu.run();
 				} else {
 					close();
 					this.keepAlive = false;
@@ -84,23 +101,12 @@ public class RequestHandler extends Thread {
 
 		String[] lines = message.toString().split("\\n");
 		for (String s : lines) {
-			try {
-				SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
-				Date dt = new Date();
-
-				String strDate = df.format(dt);
-				out.writeObject("[" + strDate + "][SERVER]> " + s);
-				out.flush();
-			} catch (IOException e) {
-				close();
-			}
+			sendMessage(s);
 		}
 	}
 
 	public void close() {
 		try {
-//			this.in.close();
-//			this.out.close();
 			this.socket.close();
 			if (this.socket.isClosed()) {
 				System.out.println(

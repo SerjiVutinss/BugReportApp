@@ -1,17 +1,82 @@
-package org.serji.sw.server;
+package org.serji.sw.server.menus;
 
+import org.serji.sw.server.RequestHandler;
+import org.serji.sw.server.ServerData;
 import org.serji.sw.server.models.Employee;
 
-public class MainMenu {
+public class LoginMenu {
 
 	private RequestHandler handler;
 //	private boolean keepAlive = true;
 
-	public MainMenu(RequestHandler handler) {
+	public LoginMenu(RequestHandler handler) {
 		this.handler = handler;
 	}
 
-	public void login() {
+	public void run() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n\nPlease make a selection: ");
+		sb.append("\n1. Register New Employee");
+		sb.append("\n2. Login Existing Employee");
+
+		if (handler.isLoggedIn()) {
+			sb.append("\n3. List Existing Employees");
+		}
+
+		sb.append("\n-1. Quit");
+		handler.sendMessage(sb);
+
+		String message = null;
+		message = handler.getMessage();
+		if (message != null && !handler.isLoggedIn()) {
+
+			switch (message) {
+
+			case "1":
+				registerEmployee();
+				break;
+
+			case "2":
+				login();
+				break;
+
+			case "-1":
+				handler.close();
+				break;
+
+			default:
+				handler.sendMessage("Unknown Input, please try again");
+				break;
+			}
+		} else if (message != null && handler.isLoggedIn()) {
+
+			switch (message) {
+
+			case "1":
+				registerEmployee();
+				break;
+
+			case "2":
+				login();
+				break;
+
+			case "3":
+				showEmployees();
+				break;
+
+			case "-1":
+				handler.close();
+				break;
+
+			default:
+				handler.sendMessage("Unknown Input, please try again");
+				break;
+			}
+		}
+	}
+
+	private void login() {
 
 		boolean inputIsValid = false;
 		while (!inputIsValid) {
@@ -27,8 +92,10 @@ public class MainMenu {
 			message = handler.getMessage();
 			if (message != null) {
 				// check to see if email exists in list of employees
-				Employee e = ServerData.checkEmailExists(message);
-				if (e != null) {
+				if (ServerData.emailExists(message)) {
+
+					Employee e = ServerData.getEmployee(message);
+
 					// email exists, proceed with login attempt, ask for id and await response
 					sb.append("Employee found");
 					handler.sendMessage(sb.toString());
@@ -45,13 +112,17 @@ public class MainMenu {
 							sb.append("Welcome " + e.getName());
 							handler.sendMessage(sb.toString());
 							sb.setLength(0);
+
+							handler.setEmployee(e);
 							inputIsValid = true;
+
+//							new MainMenu(this.handler);
+
 						} else {
 							sb.append("ID did not match for " + e.getName());
 							handler.sendMessage(sb.toString());
 							sb.setLength(0);
 						}
-
 					}
 
 				} else {
@@ -60,45 +131,9 @@ public class MainMenu {
 				}
 			}
 		}
-
 	}
 
-	public void run() {
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("\n\nPlease make a selection: ");
-		sb.append("\n1. Register New Employee");
-		sb.append("\n2. List Employees");
-		sb.append("\n-1. Quit");
-
-		handler.sendMessage(sb);
-
-		String message = null;
-		message = handler.getMessage();
-		if (message != null) {
-
-			switch (message) {
-
-			case "1":
-				registerEmployee();
-				break;
-
-			case "2":
-				showEmployees();
-				break;
-
-			case "-1":
-//				keepAlive = false;
-				handler.close();
-				break;
-
-			default:
-				handler.sendMessage("Unknown Input, please try again");
-			}
-		}
-	}
-
-	public void registerEmployee() {
+	private void registerEmployee() {
 		StringBuilder sb;
 		sb = new StringBuilder();
 		sb.append("\nPlease enter employee name: ");
