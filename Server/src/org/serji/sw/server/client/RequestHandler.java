@@ -1,4 +1,4 @@
-package org.serji.sw.server;
+package org.serji.sw.server.client;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

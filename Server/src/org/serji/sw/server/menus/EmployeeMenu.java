@@ -1,8 +1,8 @@
 package org.serji.sw.server.menus;
 
-import org.serji.sw.server.RequestHandler;
 import org.serji.sw.server.Utils;
-import org.serji.sw.server.data.ServerData;
+import org.serji.sw.server.client.RequestHandler;
+import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.Employee;
 
 public class EmployeeMenu {
@@ -10,6 +10,7 @@ public class EmployeeMenu {
 	public static void registerEmployee(RequestHandler handler) {
 
 		Employee e = new Employee();
+		e.setId(-1);
 
 		StringBuilder sb;
 		sb = new StringBuilder();
@@ -20,7 +21,7 @@ public class EmployeeMenu {
 		if (eEmail != null) {
 			handler.sendMessage("RECEIVED: " + eEmail);
 			if (Utils.isValidEmailAddress(eEmail)) {
-				if (!ServerData.emailExists(eEmail)) {
+				if (!EmployeeData.emailExists(eEmail)) {
 					// we have a valid, unique email address
 					e.setEmail(eEmail);
 					handler.sendMessage("Please enter employee name: ");
@@ -37,7 +38,7 @@ public class EmployeeMenu {
 						if (eDept != null && eDept.length() > 0) {
 							e.setDepartment(eDept);
 
-							if (ServerData.addEmployee(e)) {
+							if (EmployeeData.addEmployee(e)) {
 								handler.sendMessage("Employee " + e.getEmail() + " successfully added");
 							} else {
 								handler.sendMessage("Failed to add employee " + e.getEmail() + ", reason unknown");
@@ -58,18 +59,26 @@ public class EmployeeMenu {
 		}
 	}
 
+	public static void showEmployee(RequestHandler handler, Employee e) {
+		StringBuilder sb;
+		sb = new StringBuilder();
+		sb.append("\n*****************************************");
+		sb.append("\nEmployee ID: " + e.getId());
+		sb.append("\n       Name: " + e.getName());
+		sb.append("\n      Email: " + e.getEmail());
+		sb.append("\n Department: " + e.getDepartment());
+		sb.append("\n*****************************************");
+		handler.sendMessage(sb.toString());
+	}
+
 	public static void showEmployees(RequestHandler handler) {
 		StringBuilder sb;
 		sb = new StringBuilder();
 		sb.append("\nDisplaying all employees:");
-		for (Employee e : ServerData.getEmployees()) {
-			sb.append("\n*****************************************");
-			sb.append("\nEmployee ID: " + e.getId());
-			sb.append("\n       Name: " + e.getName());
-			sb.append("\n      Email: " + e.getEmail());
-			sb.append("\n Department: " + e.getDepartment());
-			sb.append("\n*****************************************");
-		}
 		handler.sendMessage(sb.toString());
+		for (Employee e : EmployeeData.getEmployees()) {
+			showEmployee(handler, e);
+		}
+		handler.sendMessage(new StringBuilder("Finished Displaying Employees"));
 	}
 }

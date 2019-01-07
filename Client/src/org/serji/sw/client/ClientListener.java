@@ -31,7 +31,7 @@ public class ClientListener extends Thread {
 				}
 				try {
 					message = (String) in.readObject();
-					System.out.println(message);
+					printMessage(message);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -40,5 +40,12 @@ public class ClientListener extends Thread {
 		} catch (IOException e) {
 			System.out.println("[CLIENT]> Lost stream, disconnecting");
 		}
+	}
+
+	public static void printMessage(String message) {
+		System.out.println();
+		System.out.println("######## SERVER MESSAGE #######");
+		System.out.println(message);
+		System.out.println();
 	}
 }

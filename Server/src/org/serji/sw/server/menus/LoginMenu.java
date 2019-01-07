@@ -1,7 +1,7 @@
 package org.serji.sw.server.menus;
 
-import org.serji.sw.server.RequestHandler;
-import org.serji.sw.server.data.ServerData;
+import org.serji.sw.server.client.RequestHandler;
+import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.Employee;
 
 public class LoginMenu {
@@ -22,9 +22,9 @@ public class LoginMenu {
 			message = handler.getMessage();
 			if (message != null) {
 				// check to see if email exists in list of employees
-				if (ServerData.emailExists(message)) {
+				if (EmployeeData.emailExists(message)) {
 
-					Employee e = ServerData.getEmployee(message);
+					Employee e = EmployeeData.getEmployee(message);
 
 					// email exists, proceed with login attempt, ask for id and await response
 					sb.append("Employee found");

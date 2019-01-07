@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.serji.sw.server.data.DataWriter;
-import org.serji.sw.server.data.ServerData;
+import org.serji.sw.server.client.RequestHandler;
+import org.serji.sw.server.data.DataBackup;
+import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.Employee;
 
 public class Server {
@@ -15,13 +16,10 @@ public class Server {
 
 	public Server() {
 
-		// create an admin employee
-//		Employee e = new Employee("admin", "a@e.com", "admin");
-//		ServerData.addEmployee(e);
-//		System.out.println(e.getEmail() + " Added");
-
-//		DataWriter.writeData();
-		DataWriter.readData();
+		DataBackup.readData();
+		for (Employee e : EmployeeData.getEmployees()) {
+			System.out.println(e.getEmail());
+		}
 
 		serverSocket = null;
 		port = 8000;

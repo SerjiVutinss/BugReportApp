@@ -1,6 +1,6 @@
 package org.serji.sw.server.menus;
 
-import org.serji.sw.server.RequestHandler;
+import org.serji.sw.server.client.RequestHandler;
 import org.serji.sw.server.models.Employee;
 
 public class MainMenu {
@@ -29,8 +29,8 @@ public class MainMenu {
 
 	public void run() {
 
-		EmployeeMenu.showEmployees(handler);
-		
+//		EmployeeMenu.showEmployees(handler);
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n\nPlease make a selection: ");
 		sb.append("\n1. Register New Employee");
@@ -40,6 +40,8 @@ public class MainMenu {
 			sb.append("\n3. Add New Bug Report");
 			sb.append("\n6. View All Bug Reports");
 			sb.append("\n9. List Existing Employees");
+			sb.append("\n21. Save Backup Data");
+			sb.append("\n22. Load Backup Data");
 		}
 
 		sb.append("\n-1. Quit");
@@ -79,16 +81,23 @@ public class MainMenu {
 				LoginMenu.login(handler);
 				break;
 
-			case "3":
-				BugReportMenu.addBugReport(handler);
-				break;
-
-			case "6":
-				BugReportMenu.showBugReports(handler);
-				break;
+//			case "3":
+//				BugReportMenu.addBugReport(handler);
+//				break;
+//
+//			case "6":
+//				BugReportMenu.showBugReports(handler);
+//				break;
 
 			case "9":
 				EmployeeMenu.showEmployees(handler);
+				break;
+
+			case "21":
+				BackupMenu.saveBackupData(handler);
+				break;
+			case "22":
+				BackupMenu.readBackupData(handler);
 				break;
 
 			case "-1":
