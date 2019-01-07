@@ -73,24 +73,38 @@ public class BugReportMenu {
 		handler.sendMessage(sb.toString());
 
 		String input = handler.getMessage();
-		int bugReportID = Integer.parseInt(input);
-		if (BugReportData.bugIdExists(bugReportID)) {
+		int bugReportID;
 
-			BugReport b = BugReportData.getBugReport(bugReportID);
-			handler.sendMessage(
-					"Valid Bug ID entered, please enter the ID of the employee you wish to assign this bug to:");
-			input = handler.getMessage();
+		try {
+			bugReportID = Integer.parseInt(input);
 
-			int empID = Integer.parseInt(input);
-			if (EmployeeData.empIdExists(Integer.parseInt(input))) {
-				Employee e = EmployeeData.getEmployee(empID);
+			if (BugReportData.bugIdExists(bugReportID)) {
 
-				// assign the employee to the bug here
-				BugReportData.assignBugToEmployee(b, e);
+				BugReport b = BugReportData.getBugReport(bugReportID);
+				handler.sendMessage(
+						"Valid Bug ID entered, please enter the ID of the employee you wish to assign this bug to:");
+				input = handler.getMessage();
 
-				handler.sendMessage("Bug assigned to Employee ID " + e.getId() + ", Email " + e.getEmail());
+				int empID;
+				try {
+					empID = Integer.parseInt(input);
+					if (EmployeeData.empIdExists(Integer.parseInt(input))) {
+						Employee emp = EmployeeData.getEmployee(empID);
+
+						// assign the employee to the bug here
+						BugReportData.assignBugToEmployee(b, emp);
+
+						handler.sendMessage("Bug assigned to Employee ID " + emp.getId() + ", Email " + emp.getEmail());
+					}
+				} catch (NumberFormatException e) {
+					handler.sendMessage("Input must be an integer");
+				}
+
+			} else {
+				handler.sendMessage("Bug Report with ID " + bugReportID + " not found");
 			}
-
+		} catch (NumberFormatException e) {
+			handler.sendMessage("Input must be an integer");
 		}
 
 	}

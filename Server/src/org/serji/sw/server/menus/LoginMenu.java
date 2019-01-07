@@ -10,7 +10,7 @@ public class LoginMenu {
 
 		boolean inputIsValid = false;
 		while (!inputIsValid) {
-			String message = null;
+			String email = null;
 			StringBuilder sb = new StringBuilder();
 
 			// ask for email address and wait for client response
@@ -19,12 +19,12 @@ public class LoginMenu {
 			sb.setLength(0);
 
 			// check for email address in employees list
-			message = handler.getMessage();
-			if (message != null) {
+			email = handler.getMessage();
+			if (email != null) {
 				// check to see if email exists in list of employees
-				if (EmployeeData.emailExists(message)) {
+				if (EmployeeData.emailExists(email)) {
 
-					Employee e = EmployeeData.getEmployee(message);
+					Employee emp = EmployeeData.getEmployee(email);
 
 					// email exists, proceed with login attempt, ask for id and await response
 					sb.append("Employee found");
@@ -34,23 +34,32 @@ public class LoginMenu {
 					handler.sendMessage(sb.toString());
 					sb.setLength(0);
 
-					message = handler.getMessage();
-					if (message != null) {
-						// check that this id matches the user with email
-						if (e.getId() == Integer.parseInt(message)) {
-							System.out.println(e.getName() + " Logged In");
-							sb.append("Welcome " + e.getName());
-							handler.sendMessage(sb.toString());
-							sb.setLength(0);
+					email = handler.getMessage();
+					if (email != null) {
+						int empID;
+						try {
+							empID = Integer.parseInt(email);
 
-							handler.getMainMenu().setEmployee(e);
-							inputIsValid = true;
-						} else {
-							sb.append("ID did not match for " + e.getName());
-							handler.sendMessage(sb.toString());
-							sb.setLength(0);
-							return;
+							// check that this id matches the user with email
+							if (empID == emp.getId()) {
+								System.out.println(emp.getName() + " Logged In");
+								sb.append("Welcome " + emp.getName());
+								handler.sendMessage(sb.toString());
+								sb.setLength(0);
+
+								handler.getMainMenu().setEmployee(emp);
+								inputIsValid = true;
+							} else {
+								sb.append("ID did not match for " + emp.getName());
+								handler.sendMessage(sb.toString());
+								sb.setLength(0);
+								return;
+							}
+
+						} catch (Exception e) {
+
 						}
+
 					}
 
 				} else {

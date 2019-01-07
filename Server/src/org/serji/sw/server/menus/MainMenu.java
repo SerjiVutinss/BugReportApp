@@ -32,7 +32,7 @@ public class MainMenu {
 //		EmployeeMenu.showEmployees(handler);
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("\n\nPlease make a selection: ");
+		sb.append("Please make a selection: ");
 		sb.append("\n1. Register New Employee");
 		sb.append("\n2. Login Existing Employee");
 

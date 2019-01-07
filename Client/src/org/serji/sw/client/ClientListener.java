@@ -43,9 +43,7 @@ public class ClientListener extends Thread {
 	}
 
 	public static void printMessage(String message) {
-		System.out.println();
-		System.out.println("######## SERVER MESSAGE #######");
+//		System.out.println("######## SERVER MESSAGE #######");
 		System.out.println(message);
-		System.out.println();
 	}
 }
