@@ -10,7 +10,6 @@ public class LoginMenu {
 
 		boolean inputIsValid = false;
 		while (!inputIsValid) {
-			String email = null;
 			StringBuilder sb = new StringBuilder();
 
 			// ask for email address and wait for client response
@@ -19,12 +18,12 @@ public class LoginMenu {
 			sb.setLength(0);
 
 			// check for email address in employees list
-			email = handler.getMessage();
-			if (email != null) {
+			String input = handler.getMessage();
+			if (input != null) {
 				// check to see if email exists in list of employees
-				if (EmployeeData.emailExists(email)) {
+				if (EmployeeData.emailExists(input)) {
 
-					Employee emp = EmployeeData.getEmployee(email);
+					Employee emp = EmployeeData.getEmployee(input);
 
 					// email exists, proceed with login attempt, ask for id and await response
 					sb.append("Employee found");
@@ -34,11 +33,11 @@ public class LoginMenu {
 					handler.sendMessage(sb.toString());
 					sb.setLength(0);
 
-					email = handler.getMessage();
-					if (email != null) {
+					input = handler.getMessage();
+					if (input != null) {
 						int empID;
 						try {
-							empID = Integer.parseInt(email);
+							empID = Integer.parseInt(input);
 
 							// check that this id matches the user with email
 							if (empID == emp.getId()) {
@@ -57,11 +56,12 @@ public class LoginMenu {
 							}
 
 						} catch (Exception e) {
-
+							handler.sendMessage("Employee ID must be an integer");
 						}
-
+					} else {
+						sb.append("Employee cannot be null\n");
+						handler.sendMessage(sb.toString());
 					}
-
 				} else {
 					sb.append("Employee with email not found\n");
 					handler.sendMessage(sb.toString());

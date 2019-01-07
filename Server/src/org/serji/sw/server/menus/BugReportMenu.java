@@ -68,7 +68,7 @@ public class BugReportMenu {
 
 	public static void assignBugReportToEmployee(RequestHandler handler) {
 
-		showBugReports(handler);
+		showAllBugReports(handler);
 		StringBuilder sb = new StringBuilder("Please enter the ID of the bug you wish to assign to an employee: ");
 		handler.sendMessage(sb.toString());
 
@@ -109,27 +109,43 @@ public class BugReportMenu {
 
 	}
 
-	public static void showBugReports(RequestHandler handler) {
-		StringBuilder sb;
-		sb = new StringBuilder();
-		sb.append("\nDisplaying all employees:");
+	public static void showAllBugReports(RequestHandler handler) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\nDisplaying all bug reports:");
 		for (BugReport b : BugReportData.getBugReportList()) {
-			sb.append("\n*****************************************");
-			sb.append("\n     BugReportID: " + b.getId());
-			sb.append("\nApplication Name: " + b.getApplicationName());
-			sb.append("\n           Email: " + b.getPlatform());
-			sb.append("\n     Description: " + b.getDescription());
-			sb.append("\n          Status: " + b.getStatus());
-
-			if (b.getAssignedTo() == -1) {
-				sb.append("\n     Assigned To: Unassigned");
-			} else {
-				sb.append("\n     Assigned To: " + EmployeeData.getEmpEmail(b.getAssignedTo()));
-			}
-
-			sb.append("\n           Added: " + b.getTimestamp());
-			sb.append("\n*****************************************");
+			sb.append(showBugReport(b));
 		}
 		handler.sendMessage(sb.toString());
+	}
+
+	public static void showUnassignedBugReports(RequestHandler handler) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\nDisplaying unassigned bug reports:");
+		for (BugReport b : BugReportData.getBugReportList()) {
+			if (b.getAssignedTo() == -1) {
+				sb.append(showBugReport(b));
+			}
+		}
+		handler.sendMessage(sb.toString());
+	}
+
+	private static StringBuilder showBugReport(BugReport b) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n*****************************************");
+		sb.append("\n     BugReportID: " + b.getId());
+		sb.append("\nApplication Name: " + b.getApplicationName());
+		sb.append("\n           Email: " + b.getPlatform());
+		sb.append("\n     Description: " + b.getDescription());
+		sb.append("\n          Status: " + b.getStatus());
+
+		if (b.getAssignedTo() == -1) {
+			sb.append("\n     Assigned To: Unassigned");
+		} else {
+			sb.append("\n     Assigned To: " + EmployeeData.getEmpEmail(b.getAssignedTo()));
+		}
+
+		sb.append("\n           Added: " + b.getTimestamp());
+		sb.append("\n*****************************************");
+		return sb;
 	}
 }

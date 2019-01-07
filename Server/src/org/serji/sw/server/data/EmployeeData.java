@@ -88,6 +88,7 @@ public abstract class EmployeeData {
 		if (!empIdSet.contains(e.getId()) && !emailSet.contains(e.getEmail())) {
 			empIdSet.add(e.getId());
 			emailSet.add(e.getEmail());
+			empIdEmailMap.put(e.getId(), e.getEmail());
 			employeeList.add(e);
 			System.out.println("New employee added");
 			return true;

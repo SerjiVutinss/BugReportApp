@@ -79,7 +79,7 @@ public class RequestHandler extends Thread {
 //			Date dt = new Date();
 
 			String strDate = Utils.dateToString(new Date());
-			out.writeObject("[" + strDate + "][SERVER]> " + message);
+			out.writeObject("\n[" + strDate + "][SERVER]> " + message);
 			out.flush();
 		} catch (IOException e) {
 			close();

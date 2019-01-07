@@ -46,7 +46,6 @@ public class EmployeeMenu {
 						}
 					}
 				}
-
 				else {
 					handler.sendMessage("User with email " + eEmail + " already exists on system - ABORTING");
 					return;
@@ -55,7 +54,6 @@ public class EmployeeMenu {
 				handler.sendMessage("Invalid email address format for: " + eEmail + " - ABORTING");
 				return;
 			}
-
 		}
 	}
 
