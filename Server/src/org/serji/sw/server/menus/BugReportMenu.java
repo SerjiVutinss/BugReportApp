@@ -37,8 +37,8 @@ public class BugReportMenu {
 
 				if (description != null && description.length() > 0) {
 					bugReport.setDescription(description);
-					handler.sendMessage("Please enter status: ");
-					String status = handler.getMessage();
+//					handler.sendMessage("Please enter status: ");
+//					String status = handler.getMessage();
 
 //					if (status != null && status.length() > 0) {
 ////						bugReport.setStatus(status);
@@ -136,7 +136,7 @@ public class BugReportMenu {
 		sb.append("\n*****************************************");
 		sb.append("\n     BugReportID: " + b.getId());
 		sb.append("\nApplication Name: " + b.getApplicationName());
-		sb.append("\n           Email: " + b.getPlatform());
+		sb.append("\n        Platform: " + b.getPlatform());
 		sb.append("\n     Description: " + b.getDescription());
 		sb.append("\n          Status: " + Config.Status.get(b.getStatus()));
 

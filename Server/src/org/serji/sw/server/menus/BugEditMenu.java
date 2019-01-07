@@ -24,7 +24,6 @@ public class BugEditMenu {
 		} catch (NumberFormatException e) {
 			handler.sendMessage("Input must be an integer");
 		}
-
 	}
 
 	public static void updateBugReport(RequestHandler handler, BugReport b) {
@@ -35,12 +34,12 @@ public class BugEditMenu {
 		do {
 			// now run an update menu
 			sb.setLength(0);
-			sb.append("\nWhat would you like to update?");
+			sb.append("What would you like to update?");
 			sb.append("\n1. Status");
 			sb.append("\n2. Append to Description");
 			sb.append("\n3. Changed Assigned Employee");
 			sb.append("\n-1. Return to Main Menu");
-			handler.sendMessage(sb);
+			handler.sendMessage(sb.toString());
 
 			String input = handler.getMessage();
 			switch (input) {
@@ -52,6 +51,7 @@ public class BugEditMenu {
 
 			case "2":
 				// append to the description
+				appendToDescription(handler, b);
 				break;
 
 			case "3":
@@ -68,6 +68,35 @@ public class BugEditMenu {
 
 			}
 		} while (keepAlive);
+	}
+
+	private static void appendToDescription(RequestHandler handler, BugReport b) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("\nThe current description of this bug report is: " + b.getDescription());
+		sb.append(
+				"\n\nPlease enter any text you would like to append to the description (Enter -1 to exit with no changes)");
+		handler.sendMessage(sb.toString());
+
+		String input = handler.getMessage();
+
+		int cancel;
+		try {
+			cancel = Integer.parseInt(input);
+			if (cancel == -1) {
+				return;
+			}
+		} catch (NumberFormatException e) {
+			// don't need to do anything here
+		}
+
+		if (input == null) {
+			return;
+		}
+
+		b.setDescription(b.getDescription() + " " + input);
+		handler.sendMessage("Description updated");
+
 	}
 
 	public static void updateStatus(RequestHandler handler, BugReport b) {
@@ -101,6 +130,5 @@ public class BugEditMenu {
 		default:
 			break;
 		}
-
 	}
 }

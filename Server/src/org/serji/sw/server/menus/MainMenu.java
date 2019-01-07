@@ -41,6 +41,7 @@ public class MainMenu {
 			sb.append("\n4. Assign Bug Report to Employee");
 			sb.append("\n5. View Unassigned Bug Reports");
 			sb.append("\n6. View All Bug Reports");
+			sb.append("\n7. Edit a Bug Report");
 			sb.append("\n9. List Existing Employees");
 			sb.append("\n21. Save Backup Data");
 			sb.append("\n22. Load Backup Data");
