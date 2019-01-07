@@ -38,6 +38,7 @@ public class MainMenu {
 
 		if (this.isLoggedIn()) {
 			sb.append("\n3. Add New Bug Report");
+			sb.append("\n4. Assign Bug Report to Employee");
 			sb.append("\n6. View All Bug Reports");
 			sb.append("\n9. List Existing Employees");
 			sb.append("\n21. Save Backup Data");
@@ -83,6 +84,10 @@ public class MainMenu {
 
 			case "3":
 				BugReportMenu.addBugReport(handler);
+				break;
+
+			case "4":
+				BugReportMenu.assignBugReportToEmployee(handler);
 				break;
 
 			case "6":

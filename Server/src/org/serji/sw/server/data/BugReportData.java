@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.serji.sw.server.models.BugReport;
+import org.serji.sw.server.models.Employee;
 
 /**
  * 
@@ -66,6 +67,11 @@ public abstract class BugReportData {
 		}
 	}
 
+	public synchronized static void assignBugToEmployee(BugReport b, Employee e) {
+
+		b.setAssignedTo(e.getId());
+	}
+
 	/**
 	 * Method used to register a new bug report and assign it an ID
 	 * 
@@ -123,6 +129,7 @@ public abstract class BugReportData {
 		while (!isValidId) {
 			if (BugReportData.bugIdExists(uniqueId)) {
 				uniqueId++;
+				System.out.println(uniqueId);
 			} else {
 				isValidId = true;
 			}
@@ -136,7 +143,7 @@ public abstract class BugReportData {
 	 * @param id the ID to check
 	 * @return true if ID exists in the system, else false
 	 */
-	private synchronized static boolean bugIdExists(int id) {
+	public synchronized static boolean bugIdExists(int id) {
 		return bugReportId.contains(id);
 	}
 }

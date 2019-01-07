@@ -1,8 +1,10 @@
 package org.serji.sw.server.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.serji.sw.server.models.Employee;
@@ -18,6 +20,8 @@ public abstract class EmployeeData {
 	private volatile static List<Employee> employeeList = new ArrayList<>();
 	private volatile static Set<Integer> empIdSet = new HashSet<>();
 	private volatile static Set<String> emailSet = new HashSet<>();
+
+	private volatile static Map<Integer, String> empIdEmailMap = new HashMap<>();
 
 	public synchronized static List<Employee> getEmployees() {
 		return employeeList;
@@ -46,6 +50,7 @@ public abstract class EmployeeData {
 		// reinitialize these sets
 		empIdSet = new HashSet<>();
 		emailSet = new HashSet<>();
+		empIdEmailMap = new HashMap<>();
 
 		// clone the list to avoid ConcurrentModificationException
 		List<Employee> employeesClone = new ArrayList<>();
@@ -61,6 +66,7 @@ public abstract class EmployeeData {
 			if (!empIdSet.contains(e.getId()) && !emailSet.contains(e.getEmail())) {
 				empIdSet.add(e.getId()); // add id to set
 				emailSet.add(e.getEmail()); // add email to set
+				empIdEmailMap.put(e.getId(), e.getEmail());
 				employeeList.add(e); // finally add the employee object to the list
 				System.out.println("New employee added");
 			}
@@ -108,6 +114,10 @@ public abstract class EmployeeData {
 		return null;
 	}
 
+	public synchronized static String getEmpEmail(int id) {
+		return empIdEmailMap.get(id);
+	}
+
 	/**
 	 * Returns the employee with the supplied email if that employee exists within
 	 * the static list
@@ -151,7 +161,7 @@ public abstract class EmployeeData {
 	 * @param id the ID to check
 	 * @return true if ID exists in the system, else false
 	 */
-	private synchronized static boolean empIdExists(int id) {
+	public synchronized static boolean empIdExists(int id) {
 		return empIdSet.contains(id);
 	}
 

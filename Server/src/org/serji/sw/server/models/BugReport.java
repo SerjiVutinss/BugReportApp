@@ -87,6 +87,8 @@ public class BugReport implements Serializable {
 		b.setDescription(data[4].trim());
 		b.setStatus(data[5].trim());
 		b.setAssignedTo(Integer.parseInt(data[6].trim()));
+		
+		System.out.println("Bug ASsigned to : " + b.getAssignedTo());
 
 		return b;
 	}
@@ -99,7 +101,7 @@ public class BugReport implements Serializable {
 		result.append(b.getPlatform() + ";");
 		result.append(b.getDescription() + ";");
 		result.append(b.getStatus() + ";");
-		result.append(b.getAssignedTo() + ";");
+		result.append(b.getAssignedTo());
 		result.append("\n");
 
 		return result.toString();
