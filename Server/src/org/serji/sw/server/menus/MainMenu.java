@@ -99,6 +99,10 @@ public class MainMenu {
 				BugReportMenu.showAllBugReports(handler);
 				break;
 
+			case "7":
+				BugEditMenu.runUpdateMenu(handler);
+				break;
+
 			case "9":
 				EmployeeMenu.showEmployees(handler);
 				break;

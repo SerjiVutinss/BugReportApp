@@ -2,6 +2,7 @@ package org.serji.sw.server.menus;
 
 import org.serji.sw.server.client.RequestHandler;
 import org.serji.sw.server.data.BugReportData;
+import org.serji.sw.server.data.Config;
 import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.BugReport;
 import org.serji.sw.server.models.Employee;
@@ -18,7 +19,7 @@ public class BugReportMenu {
 		bugReport.setApplicationName("");
 		bugReport.setPlatform("");
 		bugReport.setDescription("");
-		bugReport.setStatus("");
+		bugReport.setStatus(1);
 
 		handler.sendMessage("Please enter Application Name: ");
 
@@ -39,19 +40,21 @@ public class BugReportMenu {
 					handler.sendMessage("Please enter status: ");
 					String status = handler.getMessage();
 
-					if (status != null && status.length() > 0) {
-						bugReport.setStatus(status);
+//					if (status != null && status.length() > 0) {
+////						bugReport.setStatus(status);
+//
+//						BugEditMenu.updateStatus(handler, bugReport);
 
-						if (BugReportData.addBugReport(bugReport)) {
-							handler.sendMessage("Bug Added successfully");
-						} else {
-							handler.sendMessage("Unkown error occurred while adding bug, ABORTING");
-						}
-
+					if (BugReportData.addBugReport(bugReport)) {
+						handler.sendMessage("Bug Added successfully");
 					} else {
-						handler.sendMessage("Bad Input, ABORTING");
-						return;
+						handler.sendMessage("Unkown error occurred while adding bug, ABORTING");
 					}
+
+//					} else {
+//						handler.sendMessage("Bad Input, ABORTING");
+//						return;
+//					}
 				} else {
 					handler.sendMessage("Bad Input, ABORTING");
 					return;
@@ -106,14 +109,13 @@ public class BugReportMenu {
 		} catch (NumberFormatException e) {
 			handler.sendMessage("Input must be an integer");
 		}
-
 	}
 
 	public static void showAllBugReports(RequestHandler handler) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nDisplaying all bug reports:");
 		for (BugReport b : BugReportData.getBugReportList()) {
-			sb.append(showBugReport(b));
+			sb.append(getBugReportStringBuilder(b));
 		}
 		handler.sendMessage(sb.toString());
 	}
@@ -123,20 +125,20 @@ public class BugReportMenu {
 		sb.append("\nDisplaying unassigned bug reports:");
 		for (BugReport b : BugReportData.getBugReportList()) {
 			if (b.getAssignedTo() == -1) {
-				sb.append(showBugReport(b));
+				sb.append(getBugReportStringBuilder(b));
 			}
 		}
 		handler.sendMessage(sb.toString());
 	}
 
-	private static StringBuilder showBugReport(BugReport b) {
+	private static StringBuilder getBugReportStringBuilder(BugReport b) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n*****************************************");
 		sb.append("\n     BugReportID: " + b.getId());
 		sb.append("\nApplication Name: " + b.getApplicationName());
 		sb.append("\n           Email: " + b.getPlatform());
 		sb.append("\n     Description: " + b.getDescription());
-		sb.append("\n          Status: " + b.getStatus());
+		sb.append("\n          Status: " + Config.Status.get(b.getStatus()));
 
 		if (b.getAssignedTo() == -1) {
 			sb.append("\n     Assigned To: Unassigned");

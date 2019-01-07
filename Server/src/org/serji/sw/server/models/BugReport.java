@@ -17,7 +17,7 @@ public class BugReport implements Serializable {
 	private Date timestamp;
 	private String platform;
 	private String description;
-	private String status;
+	private int status;
 	private int assignedTo;
 
 	public int getId() {
@@ -60,11 +60,11 @@ public class BugReport implements Serializable {
 		this.description = description;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -85,9 +85,9 @@ public class BugReport implements Serializable {
 		b.setTimestamp(Utils.stringToDate(data[2].trim()));
 		b.setPlatform(data[3].trim());
 		b.setDescription(data[4].trim());
-		b.setStatus(data[5].trim());
+		b.setStatus(Integer.parseInt(data[5].trim()));
 		b.setAssignedTo(Integer.parseInt(data[6].trim()));
-		
+
 		System.out.println("Bug ASsigned to : " + b.getAssignedTo());
 
 		return b;
