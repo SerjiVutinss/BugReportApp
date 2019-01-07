@@ -61,4 +61,27 @@ public class Employee implements Serializable {
 		return serialVersionUID;
 	}
 
+	public static Employee csvStringToEmployee(String line) {
+		String[] data = line.split(";");
+		Employee e = new Employee();
+
+		e.setId(Integer.parseInt(data[0]));
+		e.setEmail(data[1].trim());
+		e.setName(data[2].trim());
+		e.setDepartment(data[3].trim());
+
+		return e;
+	}
+
+	public static String employeeToCsvString(Employee e) {
+		StringBuilder result = new StringBuilder();
+		result.append(e.getId() + ";");
+		result.append(e.getEmail() + ";");
+		result.append(e.getName() + ";");
+		result.append(e.getDepartment());
+		result.append("\n");
+
+		return result.toString();
+	}
+
 }

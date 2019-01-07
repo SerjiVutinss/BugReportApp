@@ -81,13 +81,13 @@ public class MainMenu {
 				LoginMenu.login(handler);
 				break;
 
-//			case "3":
-//				BugReportMenu.addBugReport(handler);
-//				break;
-//
-//			case "6":
-//				BugReportMenu.showBugReports(handler);
-//				break;
+			case "3":
+				BugReportMenu.addBugReport(handler);
+				break;
+
+			case "6":
+				BugReportMenu.showBugReports(handler);
+				break;
 
 			case "9":
 				EmployeeMenu.showEmployees(handler);

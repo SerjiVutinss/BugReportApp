@@ -3,6 +3,8 @@ package org.serji.sw.server.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.serji.sw.server.Utils;
+
 public class BugReport implements Serializable {
 
 	/**
@@ -72,6 +74,35 @@ public class BugReport implements Serializable {
 
 	public void setAssignedTo(int assignedTo) {
 		this.assignedTo = assignedTo;
+	}
+
+	public static BugReport csvStringToBugReport(String line) {
+		String[] data = line.split(";");
+		BugReport b = new BugReport();
+
+		b.setId(Integer.parseInt(data[0]));
+		b.setApplicationName(data[1].trim());
+		b.setTimestamp(Utils.stringToDate(data[2].trim()));
+		b.setPlatform(data[3].trim());
+		b.setDescription(data[4].trim());
+		b.setStatus(data[5].trim());
+		b.setAssignedTo(Integer.parseInt(data[6].trim()));
+
+		return b;
+	}
+
+	public static String bugReportToCsvString(BugReport b) {
+		StringBuilder result = new StringBuilder();
+		result.append(b.getId() + ";");
+		result.append(b.getApplicationName() + ";");
+		result.append(Utils.dateToString(b.getTimestamp()) + ";");
+		result.append(b.getPlatform() + ";");
+		result.append(b.getDescription() + ";");
+		result.append(b.getStatus() + ";");
+		result.append(b.getAssignedTo() + ";");
+		result.append("\n");
+
+		return result.toString();
 	}
 
 }

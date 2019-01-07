@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.serji.sw.server.Utils;
 import org.serji.sw.server.menus.MainMenu;
 
 public class RequestHandler extends Thread {
@@ -75,10 +75,10 @@ public class RequestHandler extends Thread {
 
 	public void sendMessage(String message) {
 		try {
-			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
-			Date dt = new Date();
+//			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
+//			Date dt = new Date();
 
-			String strDate = df.format(dt);
+			String strDate = Utils.dateToString(new Date());
 			out.writeObject("[" + strDate + "][SERVER]> " + message);
 			out.flush();
 		} catch (IOException e) {
