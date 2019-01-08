@@ -7,8 +7,25 @@ import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.BugReport;
 import org.serji.sw.server.models.Employee;
 
-public class BugEditMenu {
+/**
+ * Class of static methods relating to editing bug report menu actions. A
+ * RequestHandler must be passed as an argument to each method.
+ * 
+ * @param handler the RequestHanlder object to run this method with, will be
+ *                different for each thread calling this method
+ * 
+ * @author Justin
+ *
+ */
+public abstract class BugEditMenu {
 
+	/**
+	 * Get a BugID from the user and check to see whether this BugID exists on the
+	 * system. If it exists, run the updateBugReport() method for that bug report
+	 * object
+	 * 
+	 * @param handler
+	 */
 	public static void runUpdateMenu(RequestHandler handler) {
 
 		BugReportMenu.showAllBugReports(handler);
@@ -28,6 +45,13 @@ public class BugEditMenu {
 		}
 	}
 
+	/**
+	 * Menu logic for updating a BugReport object. Run a supplementary menu for each
+	 * selection
+	 * 
+	 * @param handler
+	 * @param b       BugReport object to be updated
+	 */
 	public static void updateBugReport(RequestHandler handler, BugReport b) {
 
 		boolean keepAlive = true;
@@ -73,6 +97,12 @@ public class BugEditMenu {
 		} while (keepAlive);
 	}
 
+	/**
+	 * Menu logic to append to the bug report description string
+	 * 
+	 * @param handler
+	 * @param b
+	 */
 	private static void appendToDescription(RequestHandler handler, BugReport b) {
 		StringBuilder sb = new StringBuilder();
 
@@ -84,6 +114,7 @@ public class BugEditMenu {
 		String input = handler.getMessage();
 
 		int cancel;
+		// see if we should just exit this menu here
 		try {
 			cancel = Integer.parseInt(input);
 			if (cancel == -1) {
@@ -102,6 +133,14 @@ public class BugEditMenu {
 
 	}
 
+	/**
+	 * Update the status of a supplied BugReport.
+	 * 
+	 * Note: See application document for reasoning on statuses
+	 * 
+	 * @param handler
+	 * @param b
+	 */
 	public static void updateStatus(RequestHandler handler, BugReport b) {
 
 		StringBuilder sb = new StringBuilder();
@@ -135,6 +174,12 @@ public class BugEditMenu {
 		}
 	}
 
+	/**
+	 * Menu logic for assigning the supplied BugReport to a user
+	 * 
+	 * @param handler
+	 * @param b
+	 */
 	public static void assignBugToEmployee(RequestHandler handler, BugReport b) {
 		handler.sendMessage(
 				"Bug Report (ID: " + "" + "), please enter the ID of the employee you wish to assign this bug to:");

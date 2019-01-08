@@ -4,6 +4,13 @@ import org.serji.sw.server.client.RequestHandler;
 import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.Employee;
 
+/**
+ * Class with static method to log in a user. A RequestHandler must be passed as an argument to each
+ * method.
+ * 
+ * @author Justin
+ *
+ */
 public class LoginMenu {
 
 	public static void login(RequestHandler handler) {

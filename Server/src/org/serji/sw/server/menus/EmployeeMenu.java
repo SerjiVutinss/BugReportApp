@@ -5,8 +5,22 @@ import org.serji.sw.server.client.RequestHandler;
 import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.Employee;
 
-public class EmployeeMenu {
+/**
+ * Class containing static methods to register an employee and send employee
+ * details to client. A RequestHandler must be passed as an argument to each
+ * method.
+ * 
+ * @param handler the RequestHanlder object to run this method with, will be
+ *                different for each thread calling this method
+ * 
+ * @author Justin
+ *
+ */
+public abstract class EmployeeMenu {
 
+	/**
+	 * Logic to register an employee
+	 */
 	public static void registerEmployee(RequestHandler handler) {
 
 		Employee e = new Employee();
@@ -45,8 +59,7 @@ public class EmployeeMenu {
 							}
 						}
 					}
-				}
-				else {
+				} else {
 					handler.sendMessage("User with email " + eEmail + " already exists on system - ABORTING");
 					return;
 				}
@@ -57,6 +70,12 @@ public class EmployeeMenu {
 		}
 	}
 
+	/**
+	 * Send a single employee's details to the client
+	 * 
+	 * @param handler
+	 * @param e       Employee object details to be sent
+	 */
 	public static void showEmployee(RequestHandler handler, Employee e) {
 		StringBuilder sb;
 		sb = new StringBuilder();
@@ -69,6 +88,11 @@ public class EmployeeMenu {
 		handler.sendMessage(sb.toString());
 	}
 
+	/**
+	 * Sends all employees' details to the client
+	 * 
+	 * @param handler
+	 */
 	public static void showEmployees(RequestHandler handler) {
 		StringBuilder sb;
 		sb = new StringBuilder();

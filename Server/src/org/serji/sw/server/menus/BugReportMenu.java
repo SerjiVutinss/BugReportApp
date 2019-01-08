@@ -6,14 +6,28 @@ import org.serji.sw.server.data.Config;
 import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.BugReport;
 
-public class BugReportMenu {
+/**
+ * Class of static methods relating to general bug report menu actions. A
+ * RequestHandler must be passed as an argument to each method.
+ * 
+ * @param handler the RequestHanlder object to run this method with, will be
+ *                different for each thread calling this method
+ * 
+ * @author Justin
+ *
+ */
+public abstract class BugReportMenu {
 
+	/**
+	 * Logic for adding a bug report to the system
+	 * 
+	 * @param handler
+	 */
 	public static void addBugReport(RequestHandler handler) {
 
 		BugReport bugReport = new BugReport();
 		bugReport.setId(-1);
 		bugReport.setAssignedTo(-1);
-//		StringBuilder sb = new StringBuilder();
 
 		bugReport.setApplicationName("");
 		bugReport.setPlatform("");
@@ -36,24 +50,12 @@ public class BugReportMenu {
 
 				if (description != null && description.length() > 0) {
 					bugReport.setDescription(description);
-//					handler.sendMessage("Please enter status: ");
-//					String status = handler.getMessage();
-
-//					if (status != null && status.length() > 0) {
-////						bugReport.setStatus(status);
-//
-//						BugEditMenu.updateStatus(handler, bugReport);
 
 					if (BugReportData.addBugReport(bugReport)) {
 						handler.sendMessage("Bug Added successfully");
 					} else {
 						handler.sendMessage("Unkown error occurred while adding bug, ABORTING");
 					}
-
-//					} else {
-//						handler.sendMessage("Bad Input, ABORTING");
-//						return;
-//					}
 				} else {
 					handler.sendMessage("Bad Input, ABORTING");
 					return;
@@ -68,6 +70,11 @@ public class BugReportMenu {
 		}
 	}
 
+	/**
+	 * Logic for assigning a bug report to an employee
+	 * 
+	 * @param handler
+	 */
 	public static void assignBugReportToEmployee(RequestHandler handler) {
 
 		showAllBugReports(handler);
@@ -92,6 +99,12 @@ public class BugReportMenu {
 		}
 	}
 
+	/**
+	 *
+	 * Sends all bug report details to the client
+	 * 
+	 * @param handler
+	 */
 	public static void showAllBugReports(RequestHandler handler) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nDisplaying all bug reports:");
@@ -101,6 +114,11 @@ public class BugReportMenu {
 		handler.sendMessage(sb.toString());
 	}
 
+	/**
+	 * Sends all unassigned bug report details to the client
+	 * 
+	 * @param handler
+	 */
 	public static void showUnassignedBugReports(RequestHandler handler) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nDisplaying unassigned bug reports:");
@@ -112,6 +130,12 @@ public class BugReportMenu {
 		handler.sendMessage(sb.toString());
 	}
 
+	/**
+	 * Create a StringBuilder representation of the BugReport
+	 * 
+	 * @param b the BugReport to be converted to a StringBuilder
+	 * @return the StringBuilder created from the object
+	 */
 	private static StringBuilder getBugReportStringBuilder(BugReport b) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n*****************************************");

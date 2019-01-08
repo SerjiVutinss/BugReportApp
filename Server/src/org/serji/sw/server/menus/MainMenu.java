@@ -3,13 +3,15 @@ package org.serji.sw.server.menus;
 import org.serji.sw.server.client.RequestHandler;
 import org.serji.sw.server.models.Employee;
 
+/*
+ * Main Menu which is created with each client handler.
+ * 
+ * Calls static methods in other menu classes
+ */
 public class MainMenu {
 
 	private RequestHandler handler;
-
 	private Employee employee;
-
-//	private boolean keepAlive = true;
 
 	public MainMenu(RequestHandler handler) {
 		this.handler = handler;
@@ -27,15 +29,18 @@ public class MainMenu {
 		return this.employee != null;
 	}
 
+	/**
+	 * Logic for the main menu, messages are sent to the client and responses are
+	 * awaited
+	 */
 	public void run() {
-
-//		EmployeeMenu.showEmployees(handler);
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("Please make a selection: ");
 		sb.append("\n1. Register New Employee");
 		sb.append("\n2. Login Existing Employee");
 
+		// only show this portion of the menu if the user is logged in
 		if (this.isLoggedIn()) {
 			sb.append("\n3. Add New Bug Report");
 			sb.append("\n4. Assign Bug Report to Employee");
@@ -52,6 +57,8 @@ public class MainMenu {
 
 		String message = null;
 		message = handler.getMessage();
+
+		// switch for unauthenticated users
 		if (message != null && !this.isLoggedIn()) {
 
 			switch (message) {
@@ -72,7 +79,9 @@ public class MainMenu {
 				handler.sendMessage("Unknown Input, please try again");
 				break;
 			}
-		} else if (message != null && this.isLoggedIn()) {
+		}
+		// switch for authenticated users
+		else if (message != null && this.isLoggedIn()) {
 
 			switch (message) {
 

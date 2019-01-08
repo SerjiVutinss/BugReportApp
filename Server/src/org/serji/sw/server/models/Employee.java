@@ -2,6 +2,11 @@ package org.serji.sw.server.models;
 
 import java.io.Serializable;
 
+/**
+ * Bean class for an Employee
+ * 
+ * Also some static methods related to employees
+ */
 public class Employee implements Serializable {
 
 	/**
@@ -61,6 +66,12 @@ public class Employee implements Serializable {
 		return serialVersionUID;
 	}
 
+	/**
+	 * Converts a String to an Employee object
+	 * 
+	 * @param line String to be parsed
+	 * @return the employee object
+	 */
 	public static Employee csvStringToEmployee(String line) {
 		String[] data = line.split(";");
 		Employee e = new Employee();
@@ -73,6 +84,12 @@ public class Employee implements Serializable {
 		return e;
 	}
 
+	/**
+	 * Converts an Employee object to a String
+	 * 
+	 * @param e the Employee to be converted to a String
+	 * @return String representation of the Employee
+	 */
 	public static String employeeToCsvString(Employee e) {
 		StringBuilder result = new StringBuilder();
 		result.append(e.getId() + ";");

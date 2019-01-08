@@ -3,8 +3,22 @@ package org.serji.sw.server.menus;
 import org.serji.sw.server.client.RequestHandler;
 import org.serji.sw.server.data.DataBackup;
 
-public class BackupMenu {
+/**
+ * Class containing menu logic for saving and reading of data from the backup
+ * files. A RequestHandler must be passed as an argument to each method.
+ * 
+ * @param handler the RequestHanlder object to run this method with, will be
+ *                different for each thread calling this method
+ * 
+ * @author Justin
+ *
+ */
+public abstract class BackupMenu {
 
+	/**
+	 * 
+	 * @param handler
+	 */
 	public static void saveBackupData(RequestHandler handler) {
 
 		StringBuilder sb;

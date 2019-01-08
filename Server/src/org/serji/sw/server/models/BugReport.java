@@ -5,13 +5,13 @@ import java.util.Date;
 
 import org.serji.sw.server.Utils;
 
+/**
+ * Bean class for a Bug Report
+ * 
+ * Also some static methods related to bug reports
+ */
 public class BugReport implements Serializable {
 
-	/**
-	 * Bean class for a Bug Report
-	 * 
-	 * Also some static methods related to bug reports
-	 */
 	private static final long serialVersionUID = 7276222399633088108L;
 
 	private int id;
@@ -78,6 +78,12 @@ public class BugReport implements Serializable {
 		this.assignedTo = assignedTo;
 	}
 
+	/**
+	 * Converts a String to a BugReport object
+	 * 
+	 * @param line String to be parsed
+	 * @return the bug report object
+	 */
 	public static BugReport csvStringToBugReport(String line) {
 		String[] data = line.split(";");
 		BugReport b = new BugReport();
@@ -95,6 +101,12 @@ public class BugReport implements Serializable {
 		return b;
 	}
 
+	/**
+	 * Converts a BugReport object to a String
+	 * 
+	 * @param e the BugReport to be converted to a String
+	 * @return String representation of the BugReport
+	 */
 	public static String bugReportToCsvString(BugReport b) {
 		StringBuilder result = new StringBuilder();
 		result.append(b.getId() + ";");
