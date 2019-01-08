@@ -3,13 +3,13 @@ package org.serji.sw.server.data;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Config {
+public abstract class Config {
 
 	private static final String filepath = System.getProperty("user.dir") + "/resources/";
 	public static final String employeeDataFile = filepath + "employees.csv";
 	public static final String bugReportDataFile = filepath + "bugreports.csv";
 
-	public static final Map<Integer, String> Status = buildStatusMap();
+	public static final Map<Integer, String> statuses = buildStatusMap();
 
 	private static Map<Integer, String> buildStatusMap() {
 		Map<Integer, String> statusMap = new HashMap<Integer, String>();

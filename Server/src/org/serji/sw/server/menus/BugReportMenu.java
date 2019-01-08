@@ -119,7 +119,7 @@ public class BugReportMenu {
 		sb.append("\nApplication Name: " + b.getApplicationName());
 		sb.append("\n        Platform: " + b.getPlatform());
 		sb.append("\n     Description: " + b.getDescription());
-		sb.append("\n          Status: " + Config.Status.get(b.getStatus()));
+		sb.append("\n          Status: " + Config.statuses.get(b.getStatus()));
 
 		if (b.getAssignedTo() == -1) {
 			sb.append("\n     Assigned To: Unassigned");

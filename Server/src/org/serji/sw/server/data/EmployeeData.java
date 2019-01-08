@@ -10,7 +10,7 @@ import java.util.Set;
 import org.serji.sw.server.models.Employee;
 
 /**
- * 
+ * Class to implement the in memory Employee data structures
  * 
  * @author Justin
  *

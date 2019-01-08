@@ -10,7 +10,7 @@ import org.serji.sw.server.models.BugReport;
 import org.serji.sw.server.models.Employee;
 
 /**
- * 
+ * Class to implement the in memory BugReport data structures
  * 
  * @author Justin
  *

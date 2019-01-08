@@ -116,7 +116,7 @@ public class BugEditMenu {
 		case "1":
 			// set status to open
 			b.setStatus(1);
-			handler.sendMessage("Status changed to " + Config.Status.get(1));
+			handler.sendMessage("Status changed to " + Config.statuses.get(1));
 			break;
 
 //		case "2":
@@ -127,7 +127,7 @@ public class BugEditMenu {
 		case "2":
 			// set status to closed
 			b.setStatus(3);
-			handler.sendMessage("Status changed to " + Config.Status.get(3));
+			handler.sendMessage("Status changed to " + Config.statuses.get(3));
 			break;
 
 		default:
