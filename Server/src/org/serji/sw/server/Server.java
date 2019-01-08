@@ -19,7 +19,7 @@ import org.serji.sw.server.data.EmployeeData;
  */
 public class Server {
 
-	private int port;
+	private static final int port = 8000;
 	private ServerSocket serverSocket;
 
 	/**
@@ -27,14 +27,16 @@ public class Server {
 	 */
 	public Server() {
 
+		System.out.println("Starting Server...");
+		System.out.println("Reading Data Backup Files...");
 		// read data from the backup files and load these into memory
 		DataBackup.readData();
 		// print out a summary of loaded data
-		System.out.println(EmployeeData.getEmployees().size() + " employees added");
-		System.out.println(BugReportData.getBugReportList().size() + " bug reports added");
+		System.out.println("\t" + EmployeeData.getEmployees().size() + " employees added");
+		System.out.println("\t" + BugReportData.getBugReportList().size() + " bug reports added");
+		System.out.println();
 
 		serverSocket = null;
-		port = 8000; // hard code the server port
 
 		listen(); // start listening for client connections
 	}

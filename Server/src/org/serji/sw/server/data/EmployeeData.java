@@ -68,7 +68,7 @@ public abstract class EmployeeData {
 				emailSet.add(e.getEmail()); // add email to set
 				empIdEmailMap.put(e.getId(), e.getEmail());
 				employeeList.add(e); // finally add the employee object to the list
-				System.out.println("New employee added");
+//				System.out.println("New employee added");
 			}
 		}
 	}
@@ -90,7 +90,7 @@ public abstract class EmployeeData {
 			emailSet.add(e.getEmail());
 			empIdEmailMap.put(e.getId(), e.getEmail());
 			employeeList.add(e);
-			System.out.println("New employee added");
+//			System.out.println("New employee added");
 			return true;
 		}
 		return false; // employee ID or email was not unique
@@ -106,7 +106,7 @@ public abstract class EmployeeData {
 	 * @return the employee with the supplied ID if it exists, else return null
 	 */
 	public synchronized static Employee getEmployee(int id) {
-		System.out.println(employeeList.size());
+//		System.out.println(employeeList.size());
 		for (Employee e : employeeList) {
 			if (e.getId() == id) {
 				return e;

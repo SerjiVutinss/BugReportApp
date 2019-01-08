@@ -15,6 +15,8 @@ import org.serji.sw.server.models.Employee;
  * @author Justin
  *
  */
+
+// ASsigned
 public abstract class BugReportData {
 
 	private volatile static List<BugReport> bugReportList = new ArrayList<>();
@@ -62,7 +64,7 @@ public abstract class BugReportData {
 			if (!bugReportId.contains(e.getId())) {
 				bugReportId.add(e.getId()); // add id to set
 				bugReportList.add(e); // finally add the bug report object to the list
-				System.out.println("New bug report added");
+//				System.out.println("New bug report added");
 			}
 		}
 	}
@@ -92,7 +94,7 @@ public abstract class BugReportData {
 			bugReport.setTimestamp(new Date());
 
 			bugReportList.add(bugReport);
-			System.out.println("New bug report added");
+//			System.out.println("New bug report added");
 			return true;
 		}
 		return false; // bug report ID or email was not unique
@@ -108,7 +110,7 @@ public abstract class BugReportData {
 	 * @return the bug report with the supplied ID if it exists, else return null
 	 */
 	public synchronized static BugReport getBugReport(int id) {
-		System.out.println(bugReportList.size());
+//		System.out.println(bugReportList.size());
 		for (BugReport b : bugReportList) {
 			if (b.getId() == id) {
 				return b;
@@ -129,7 +131,7 @@ public abstract class BugReportData {
 		while (!isValidId) {
 			if (BugReportData.bugIdExists(uniqueId)) {
 				uniqueId++;
-				System.out.println(uniqueId);
+//				System.out.println(uniqueId);
 			} else {
 				isValidId = true;
 			}

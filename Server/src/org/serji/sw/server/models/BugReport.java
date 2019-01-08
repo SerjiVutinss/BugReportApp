@@ -96,8 +96,6 @@ public class BugReport implements Serializable {
 		b.setStatus(Integer.parseInt(data[5].trim()));
 		b.setAssignedTo(Integer.parseInt(data[6].trim()));
 
-		System.out.println("Bug ASsigned to : " + b.getAssignedTo());
-
 		return b;
 	}
 
