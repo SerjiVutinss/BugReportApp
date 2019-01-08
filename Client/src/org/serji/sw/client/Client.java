@@ -3,6 +3,7 @@ package org.serji.sw.client;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  * Main application class
@@ -25,9 +26,21 @@ public class Client {
 
 		socket = null;
 
+		Scanner scanner = new Scanner(System.in);
+		String host;
+		int port;
+
+		System.out.println("Please enter the server address: ");
+		host = scanner.nextLine();
+		System.out.println("Please enter the server port: ");
+		port = scanner.nextInt();
+
+		// USED FOR TESTING PURPOSES
+//		host = "localhost";
+//		host = "137.117.224.144";
+//		port= 8000;
+
 		// hardcode these for testing
-		String host = "localhost";
-		int port = 8000;
 
 		System.out.println("[CLIENT]> Starting Client");
 		// attempt opening a socket connection to the server
