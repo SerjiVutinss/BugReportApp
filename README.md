@@ -40,4 +40,4 @@ TCP socket client and server applications written in Java.
 * Input validation is present for email addresses and integers
 * Most often, if an input error is detected, the user is directed back to the previous menu and no changed are made to data
 * In the edit bug menu (#7), the user must manually exit by entering -1
-* If the client is disconnected from the server at certain times, the server will throw an exception - this will occur when the client thread is within one of the menu loops.  It is caused by the RequestHandler getMessage() method returning a null pointer.  The server will continue running so I have fixed this.
+* If the client is disconnected from the server at certain times, the server will throw an exception - this will occur when the client thread is within one of the menu loops.  It is caused by the RequestHandler getMessage() method returning a null pointer.  The server will continue running so I have fixed this.  This can be seen in the screencast.
