@@ -3,7 +3,9 @@ package org.serji.sw.server.menus;
 import org.serji.sw.server.client.RequestHandler;
 import org.serji.sw.server.data.BugReportData;
 import org.serji.sw.server.data.Config;
+import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.BugReport;
+import org.serji.sw.server.models.Employee;
 
 public class BugEditMenu {
 
@@ -56,6 +58,7 @@ public class BugEditMenu {
 
 			case "3":
 				// changed the assigned employee
+				assignBugToEmployee(handler, b);
 				break;
 
 			case "-1":
@@ -129,6 +132,27 @@ public class BugEditMenu {
 
 		default:
 			break;
+		}
+	}
+
+	public static void assignBugToEmployee(RequestHandler handler, BugReport b) {
+		handler.sendMessage(
+				"Bug Report (ID: " + "" + "), please enter the ID of the employee you wish to assign this bug to:");
+		String input = handler.getMessage();
+
+		int empID;
+		try {
+			empID = Integer.parseInt(input);
+			if (EmployeeData.empIdExists(Integer.parseInt(input))) {
+				Employee emp = EmployeeData.getEmployee(empID);
+
+				// assign the employee to the bug here
+				BugReportData.assignBugToEmployee(b, emp);
+
+				handler.sendMessage("Bug assigned to Employee ID " + emp.getId() + ", Email " + emp.getEmail());
+			}
+		} catch (NumberFormatException e) {
+			handler.sendMessage("Input must be an integer");
 		}
 	}
 }

@@ -5,7 +5,6 @@ import org.serji.sw.server.data.BugReportData;
 import org.serji.sw.server.data.Config;
 import org.serji.sw.server.data.EmployeeData;
 import org.serji.sw.server.models.BugReport;
-import org.serji.sw.server.models.Employee;
 
 public class BugReportMenu {
 
@@ -83,25 +82,7 @@ public class BugReportMenu {
 
 			if (BugReportData.bugIdExists(bugReportID)) {
 
-				BugReport b = BugReportData.getBugReport(bugReportID);
-				handler.sendMessage(
-						"Valid Bug ID entered, please enter the ID of the employee you wish to assign this bug to:");
-				input = handler.getMessage();
-
-				int empID;
-				try {
-					empID = Integer.parseInt(input);
-					if (EmployeeData.empIdExists(Integer.parseInt(input))) {
-						Employee emp = EmployeeData.getEmployee(empID);
-
-						// assign the employee to the bug here
-						BugReportData.assignBugToEmployee(b, emp);
-
-						handler.sendMessage("Bug assigned to Employee ID " + emp.getId() + ", Email " + emp.getEmail());
-					}
-				} catch (NumberFormatException e) {
-					handler.sendMessage("Input must be an integer");
-				}
+				BugEditMenu.assignBugToEmployee(handler, BugReportData.getBugReport(bugReportID));
 
 			} else {
 				handler.sendMessage("Bug Report with ID " + bugReportID + " not found");
