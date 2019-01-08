@@ -49,26 +49,36 @@ public class RequestHandler extends Thread {
 	}
 
 	private void listen() {
-		if (socket.isConnected()) {
-			mainMenu = new MainMenu(this);
-			while (keepAlive) {
-				if (socket.isConnected()) {
-					mainMenu.run();
-				} else {
-					close();
-					this.keepAlive = false;
+
+		if (socket != null) {
+			if (socket.isConnected()) {
+
+				mainMenu = new MainMenu(this);
+				while (keepAlive) {
+
+					if (socket.isConnected()) {
+						mainMenu.run();
+					} else {
+						close();
+						this.keepAlive = false;
+					}
 				}
 			}
+		} else {
+			System.out.println("Lost connection to a client");
 		}
 	}
 
 	public String getMessage() {
 		String msg = null;
-		try {
-			msg = (String) in.readObject();
-		} catch (ClassNotFoundException | IOException e) {
-			keepAlive = false;
-			close();
+		if (socket != null) {
+			try {
+				msg = (String) in.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				keepAlive = false;
+				System.out.println("Client Disconnected");
+				close();
+			}
 		}
 		return msg;
 	}
@@ -95,16 +105,20 @@ public class RequestHandler extends Thread {
 	}
 
 	public void close() {
-		try {
-			this.socket.close();
-			if (this.socket.isClosed()) {
-				System.out.println(
-						"[SERVER]> Connection to: " + socket.getInetAddress() + ":" + socket.getPort() + " closed");
 
+		if (this.socket != null) {
+
+			try {
+				this.socket.close();
+				if (this.socket.isClosed()) {
+					System.out.println(
+							"[SERVER]> Connection to: " + socket.getInetAddress() + ":" + socket.getPort() + " closed");
+
+				}
+				this.socket = null;
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			this.socket = null;
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }

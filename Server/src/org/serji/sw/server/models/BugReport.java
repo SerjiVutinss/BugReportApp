@@ -8,7 +8,9 @@ import org.serji.sw.server.Utils;
 public class BugReport implements Serializable {
 
 	/**
+	 * Bean class for a Bug Report
 	 * 
+	 * Also some static methods related to bug reports
 	 */
 	private static final long serialVersionUID = 7276222399633088108L;
 
