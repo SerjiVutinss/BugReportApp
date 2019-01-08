@@ -53,7 +53,7 @@ public abstract class EmployeeMenu {
 							e.setDepartment(eDept);
 
 							if (EmployeeData.addEmployee(e)) {
-								handler.sendMessage("Employee " + e.getEmail() + " successfully added");
+								handler.sendMessage("Employee " + e.getEmail() + " successfully added with ID " + e.getId());
 							} else {
 								handler.sendMessage("Failed to add employee " + e.getEmail() + ", reason unknown");
 							}
