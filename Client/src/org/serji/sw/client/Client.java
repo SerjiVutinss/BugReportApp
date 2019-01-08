@@ -18,8 +18,7 @@ public class Client {
 	/**
 	 * Constructor
 	 * 
-	 * 
-	 * 
+	 * Get host name and port and attempt to connect to the server
 	 */
 	public Client() {
 		System.out.println("[CLIENT]> Welcome to TCP Client");
